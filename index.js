@@ -5,6 +5,8 @@ const mongoose = require("mongoose");
 const User = require("./models/user.model");
 const jwt = require("jsonwebtoken");
 const bcrypt = require("bcryptjs");
+const PORT = process.env.PORT || 3003;
+
 
 app.use(cors());
 app.use(express.json());
@@ -88,6 +90,11 @@ app.post("/api/quote", async (req, res) => {
 });
 
 //8080 port
-app.listen(8080, () => {
-  console.log("Server started on 1337");
+app.listen(PORT, () => {
+  console.log("Server started on "+ PORT);
 });
+
+app.get("/", (req, res) => {
+  console.log("Responding to root route");
+  res.send("Backend root route is running");
+} )
