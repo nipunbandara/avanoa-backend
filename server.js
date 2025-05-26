@@ -26,6 +26,7 @@ mongoose.connect(
     console.log("db connected");
     app.listen(port, () => {
       console.log("server is active");
+      console.log(`listening on port ${port}`);
     });
   }
 );

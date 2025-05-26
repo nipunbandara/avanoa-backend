@@ -40,20 +40,40 @@ const userController = {
       const salt = await bcrypt.genSalt();
       const hashPassword = await bcrypt.hash(password, salt);
 
-      // create token
-      const newUser = { name, email, password: hashPassword };
-      const activation_token = createToken.activation(newUser);
+      // // create token
+      // const newUser = { name, email, password: hashPassword };
+     
+      // add user
+      const newUser = new User({
+          name,
+          email,
+          password: hashPassword,
+        });
 
-      // send email
-      const url = `${req.headers.referer}api/auth/activate/${activation_token}`;
+      await newUser.save();
 
-      sendMail.sendEmailRegister(email, url, "Verify your email");
-
-      // registration success
-      res.status(200).json({ msg: "Welcome! Please check your email." });
+      // activation success
+      res
+        .status(200)
+        .json({ msg: "Your account has been activated, you can now sign in." });
     } catch (err) {
       res.status(500).json({ msg: err.message });
     }
+
+
+
+    //const activation_token = createToken.activation(newUser);
+
+      // send email
+      //const url = `${req.headers.referer}api/auth/activate/${activation_token}`;
+
+      //sendMail.sendEmailRegister(email, url, "Verify your email");
+
+    //   // registration success
+    //   res.status(200).json({ msg: "Welcome! Please check your email." });
+    // } catch (err) {
+    //   res.status(500).json({ msg: err.message });
+    // }
   },
   activate: async (req, res) => {
     try {
